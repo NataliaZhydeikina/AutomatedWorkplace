@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,9 @@ namespace AutomatedWorkplace
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            DB db = new DB();
+            db.CreateDatabase(new SqlConnection("Server=localhost\\SQLEXPRESS;Trusted_Connection=True;"), "AutomateedWorkspace");
+            Application.Run(new Start());
         }
     }
 }
