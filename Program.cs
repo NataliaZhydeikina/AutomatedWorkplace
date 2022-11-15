@@ -18,8 +18,8 @@ namespace AutomatedWorkplace
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             DB db = new DB();
-            db.CreateDatabase(new SqlConnection("Server=localhost\\SQLEXPRESS;Trusted_Connection=True;"), "AutomateedWorkspace");
-            Application.Run(new Start());
+            db.CreateDatabase(new SqlConnection("Server=localhost\\SQLEXPRESS;Trusted_Connection=True;"), "AutomatedWorkspace");
+            Application.Run(new Main());
         }
     }
 }
