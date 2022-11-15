@@ -22,6 +22,7 @@ namespace AutomatedWorkplace.Components
                 new Label[] { label8, label13, label18 },
                 new Label[] { label7, label12, label17 },
                 new Label[] { label6, label11, label16 },
+                new Label[] { label25, label26, label27 },
             };
         }
 
@@ -30,27 +31,26 @@ namespace AutomatedWorkplace.Components
         {
             using (SqlConnection connection = GetConnection())
             {
-                string query = "SELECT Time,Date,Audience,StudentGroup,sb.SubjectTitle FROM Lectures as lc, Subjects as sb WHERE lc.SubjectId = sb.SubjectId";
+                string query = "SELECT Time,Date,Audience,StudentGroup,sb.SubjectTitle FROM Lectures as lc, Subjects as sb WHERE lc.SubjectId = sb.SubjectId ORDER BY Date ASC";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
 
                 if (table.Rows.Count > 0)
                 {
-                    
-                    for (int i = 0, j=0; i < table.Rows.Count && j<labels.Length; i += 3, j++)
+                    for (int i = 0; i < table.Rows.Count; i++)
                     {
                         var cells = table.Rows[i].ItemArray;
-                        //var cells2 = table.Rows[i+1].ItemArray;
-                        //var cells3 = table.Rows[i + 2].ItemArray;
-                        //labels[j][0].Text = cells[4].ToString();
-                        //labels[j][1].Text = cells2[4].ToString();
-                        //labels[j][2].Text = cells3[4].ToString();
+                         DateTime date = DateTime.Parse(cells[1].ToString());
+                         DateTime time = DateTime.Parse(cells[0].ToString());
+                        int timeIndex = time.Hour == 13 ? 0 : time.Hour == 15 ? 1 : 2;
 
+                        labels[((int)date.DayOfWeek)-1][timeIndex].Text = cells[4].ToString();
                     }
 
-                       
-                    }
+
+
+                }
             }
         }
 
@@ -58,5 +58,7 @@ namespace AutomatedWorkplace.Components
         {
             return new SqlConnection("Server=localhost\\SQLEXPRESS;Trusted_Connection=True;Initial Catalog=AutomatedWorkspace;");
         }
+
+       
     }
 }
